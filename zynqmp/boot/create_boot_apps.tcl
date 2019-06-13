@@ -1,24 +1,3 @@
-# Generate boot products for Xilinx ZCU102
-#
-# This script does the same thing that using the Xilinx SDK GUI does, but in a single command
-# Generates:
-# - First Stage Bootloader (fsbl)
-# - Platform Management Unit Firmware (pmufw)
-# - Device tree generated for your hardware platform (dts)
-#
-# Usage
-#
-# 1. Source the setup script found in the Xilinx SDK install directory, e.g.
-#
-#     source /opt/Xilinx/SDK/2018.3/settings64.sh
-#
-# 2. Source this Tcl script from a directory that contains a hardware description file (HDF)
-#
-#     xsct /path/to/create_boot_apps.tcl
-#
-
-set xilinx_version "2018.3"
-
 set hwspec [glob *.hdf]
 set hwproject [file rootname [file tail $hwspec]]
 
@@ -26,7 +5,7 @@ file mkdir build
 file copy -force $hwspec build/
 
 file delete -force build/device-tree-xlnx
-exec -ignorestderr git clone https://github.com/Xilinx/device-tree-xlnx -q --branch xilinx-v${xilinx_version} build/device-tree-xlnx
+exec -ignorestderr git clone -q https://github.com/Xilinx/device-tree-xlnx build/device-tree-xlnx
 
 setws build
 repo -set build/device-tree-xlnx
