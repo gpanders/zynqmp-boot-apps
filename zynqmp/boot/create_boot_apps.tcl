@@ -4,8 +4,13 @@ set hwproject [file rootname [file tail $hwspec]]
 file mkdir build
 file copy -force $hwspec build/
 
+set xilinx_version "master"
+if { &::argc > 0 } {
+    set xilinx_version "xilinx-v[lindex $::argv 0]"
+}
+
 file delete -force build/device-tree-xlnx
-exec -ignorestderr git clone -q https://github.com/Xilinx/device-tree-xlnx build/device-tree-xlnx
+exec -ignorestderr git clone -q --branch $xilinx_version https://github.com/Xilinx/device-tree-xlnx build/device-tree-xlnx
 
 setws build
 repo -set build/device-tree-xlnx
@@ -19,7 +24,7 @@ regenbsp -bsp device_tree
 projects -build
 
 # The device tree generator uses the #include syntax in the DTS files which
-# requires preprocessing by a compiler (usually gcc), where as the /include/
+# requires preprocessing by a compiler (usually gcc), whereas the /include/
 # syntax is recognized natively by the dtc tool
 foreach file [glob build/**/*.dts] {
     exec sed -i {s/^#include/\/include\//} $file

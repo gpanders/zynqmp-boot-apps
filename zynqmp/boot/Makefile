@@ -25,7 +25,7 @@ build/BOOT.bin: build/fsbl/Debug/fsbl.elf build/pmufw/Debug/pmufw.elf build/u-bo
 
 
 build/fsbl/Debug/fsbl.elf build/pmufw/Debug/pmufw.elf build/device_tree/system-top.dts:
-	xsct create_boot_apps.tcl
+	xsct create_boot_apps.tcl $(VER)
 
 build/system.dtb: build/device_tree/system-top.dts
 	dtc -I dts -O dtb -o build/system.dtb $<

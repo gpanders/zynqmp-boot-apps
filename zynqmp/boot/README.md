@@ -35,6 +35,14 @@ Simply drop your hardware description file (.hdf) into this directory and run
 
     $ make
 
+You can set the version of the device tree generator to be used with the `VER`
+variable:
+
+    $ make VER=2018.3
+
+It is recommended to use the same version as the version of Vivado you used to
+create your design.
+
 ## Install to SD card
 
 To install the output products to your SD card's boot partition, mount the
@@ -49,8 +57,9 @@ replacing `/media/sd/boot` with your actual mount point.
 
 ## Example
 
-Below is an example of using this tool from start to finish. **This is an
-example and file names and invocations may change for your own needs**.
+Below is an example of using this tool from start to finish with a design
+created in Vivado 2018.3. **This is an example and file names and invocations
+may change for your own needs**.
 
 Start in your home directory.
 ```bash
@@ -71,16 +80,19 @@ $ source /opt/Xilinx/SDK/2018.3/settings64.sh
 $ export CROSS_COMPILE="aarch64-linux-gnu-"
 ```
 
-Build U-Boot.
+Build U-Boot. Be sure to checkout the tag corresponding to your version of
+Vivado.
 ```bash
 $ cd ~/u-boot-xlnx
+$ git checkout tags/xilinx-v2018.3
 $ make xilinx_zynqmp_zcu102_rev1_0_defconfig
 $ make -j8
 ```
 
-Build the ARM Trusted Firmware.
+Build the ARM Trusted Firmware. Again, checkout the correct tag.
 ```bash
 $ cd ~/arm-trusted-firmware
+$ git checkout tags/xilinx-v2018.3
 $ make PLAT=zynqmp -j8 all
 ```
 
@@ -100,5 +112,6 @@ $ sudo mount /dev/sdc1 /media/sd/boot
 
 Make and install the boot files.
 ```bash
+$ make VER=2018.3
 $ sudo make INSTALL_DIR=/media/sd/boot install
 ```
