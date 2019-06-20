@@ -62,27 +62,26 @@ created in Vivado 2018.3. **This is an example and file names and invocations
 may change for your own needs**.
 
 Start in your home directory.
-```bash
-$ pwd
-/home/gpanders/
+```console
+$ cd ~
 ```
 
 Clone all required repositories.
-```bash
+```console
 $ git clone https://github.com/Xilinx/u-boot-xlnx
 $ git clone https://github.com/Xilinx/arm-trusted-firmware
 $ git clone https://github.com/gpanders/zynqmp-boot-apps
 ```
 
 Source the setup script provided with your SDK installation.
-```bash
+```console
 $ source /opt/Xilinx/SDK/2018.3/settings64.sh
 $ export CROSS_COMPILE="aarch64-linux-gnu-"
 ```
 
 Build U-Boot. Be sure to checkout the tag corresponding to your version of
 Vivado.
-```bash
+```console
 $ cd ~/u-boot-xlnx
 $ git checkout tags/xilinx-v2018.3
 $ make xilinx_zynqmp_zcu102_rev1_0_defconfig
@@ -90,28 +89,28 @@ $ make -j8
 ```
 
 Build the ARM Trusted Firmware. Again, checkout the correct tag.
-```bash
+```console
 $ cd ~/arm-trusted-firmware
 $ git checkout tags/xilinx-v2018.3
 $ make PLAT=zynqmp -j8 all
 ```
 
 Navigate to this repository and copy all required files.
-```bash
-$ cd ~/fpga-utils/zynqmp/boot
+```console
+$ cd ~/zynqmp-boot-apps
 $ cp /path/to/hdf_file.hdf .
 $ mkdir build
 $ cp ~/u-boot-xlnx/u-boot.elf ~/arm-trusted-firmware/build/zynqmp/release/bl31/bl31.elf build/
 ```
 
 Mount your SD card's boot partition.
-```bash
+```console
 $ sudo mkdir -p /media/sd/boot
 $ sudo mount /dev/sdc1 /media/sd/boot
 ```
 
 Make and install the boot files.
-```bash
+```console
 $ make VER=2018.3
 $ sudo make INSTALL_DIR=/media/sd/boot install
 ```
