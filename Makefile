@@ -4,13 +4,14 @@ all: bootgen dtb
 
 bootgen: build/BOOT.bin
 
-apps: build/fsbl/Debug/fsbl.elf build/pmufw/Debug/pmufw.elf
+apps: build/fsbl.elf build/pmufw.elf
 
 dtb: build/system.dtb
 
 clean:
-	rm -rf build/fsbl{,_bsp}
-	rm -rf build/pmufw{,_bsp}
+	rm -rf build/workspace
+	rm -rf build/fsbl.elf
+	rm -rf build/pmufw.elf
 	rm -rf build/device_tree
 	rm -rf build/device-tree-xlnx
 	rm -rf build/system.dtb
@@ -20,10 +21,10 @@ install: bootgen dtb
 	cp -f build/BOOT.bin $(INSTALL_DIR)
 	cp -f build/system.dtb $(INSTALL_DIR)
 
-build/BOOT.bin: build/fsbl/Debug/fsbl.elf build/pmufw/Debug/pmufw.elf build/u-boot.elf build/bl31.elf
+build/BOOT.bin: build/fsbl.elf build/pmufw.elf build/u-boot.elf build/bl31.elf
 	bootgen -image bootgen.bif -arch zynqmp -w on -o $@
 
-build/fsbl/Debug/fsbl.elf build/pmufw/Debug/pmufw.elf build/device_tree/system-top.dts:
+build/fsbl.elf build/pmufw.elf build/device_tree/system-top.dts:
 	xsct create_boot_apps.tcl $(VER)
 
 build/system.dtb: build/device_tree/system-top.dts
