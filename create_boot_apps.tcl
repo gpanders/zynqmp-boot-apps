@@ -5,7 +5,7 @@ file mkdir build
 file copy -force $hwspec build/
 
 set xilinx_version "master"
-if { &::argc > 0 } {
+if { $::argc > 0 } {
     set xilinx_version "xilinx-v[lindex $::argv 0]"
 }
 
