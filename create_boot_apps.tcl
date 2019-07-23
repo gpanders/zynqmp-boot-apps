@@ -21,6 +21,8 @@ createapp -name fsbl -hwproject $hwproject -proc psu_cortexa53_0 -app {Zynq MP F
 configapp -app fsbl define-compiler-symbols FSBL_DEBUG_DETAILED
 createapp -name pmufw -hwproject $hwproject -proc psu_pmu_0 -app {ZynqMP PMU Firmware} -os standalone
 createbsp -name device_tree -hwproject $hwproject -proc psu_cortexa53_0 -os device_tree
+configbsp -bsp device_tree periph_type_overrides "{BOARD zcu102-rev1.0}"
+regenbsp -bsp device_tree
 projects -build
 
 # Copy all outputu products to top level build directory
