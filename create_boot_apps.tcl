@@ -29,11 +29,4 @@ file copy -force build/workspace/fsbl/Debug/fsbl.elf build/fsbl.elf
 file copy -force build/workspace/pmufw/Debug/pmufw.elf build/pmufw.elf
 file copy -force [glob build/workspace/$hwproject/*.bit] build/bitstream.bit
 
-# The device tree generator uses the #include syntax in the DTS files which
-# requires preprocessing by a compiler (such as gcc), whereas the /include/
-# syntax is recognized natively by the dtc tool
-foreach file [glob build/device_tree/*.dts] {
-    exec sed -i {s/^#include/\/include\//} $file
-}
-
 exit

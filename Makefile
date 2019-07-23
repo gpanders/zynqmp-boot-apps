@@ -27,8 +27,9 @@ build/BOOT.bin: build/fsbl.elf build/pmufw.elf build/u-boot.elf build/bl31.elf
 build/fsbl.elf build/pmufw.elf build/device_tree/system-top.dts:
 	xsct create_boot_apps.tcl $(VER)
 
-build/system.dtb: build/device_tree/system-top.dts
-	dtc -I dts -O dtb -o $@ $<
+build/system.dtb: build/device_tree/system-top.dts build/device_tree/*.dts[i]
+	cpp -nostdinc -undef -D__DTS__ -x assembler-with-cpp -I $(<D) -o $<.tmp $<
+	dtc -I dts -O dtb -o $@ $<.tmp
 
 build/u-boot.elf:
 	$(error Missing u-boot.elf. Build U-Boot separately and place the generated u-boot.elf file into the 'build' directory)
