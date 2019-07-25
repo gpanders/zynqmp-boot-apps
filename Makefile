@@ -24,10 +24,10 @@ install: bootgen dtb
 build/BOOT.bin: build/fsbl.elf build/pmufw.elf build/u-boot.elf build/bl31.elf
 	bootgen -image bootgen.bif -arch zynqmp -w on -o $@
 
-build/fsbl.elf build/pmufw.elf build/device_tree/system-top.dts:
+build/fsbl.elf build/pmufw.elf build/device_tree/system-top.dts: *.hdf
 	xsct create_boot_apps.tcl $(VER)
 
-build/system.dtb: build/device_tree/system-top.dts build/device_tree/*.dts[i]
+build/system.dtb: build/device_tree/system-top.dts build/device_tree/*.dts build/device_tree/*.dtsi
 	cpp -nostdinc -undef -D__DTS__ -x assembler-with-cpp -I $(<D) -o $<.tmp $<
 	dtc -I dts -O dtb -o $@ $<.tmp
 
@@ -36,3 +36,6 @@ build/u-boot.elf:
 
 build/bl31.elf:
 	$(error Missing bl31.elf. Build ATF separately and place the generated bl31.elf file into the 'build' directory)
+
+*.hdf:
+	$(error Missing a hardware description file. Copy your .hdf file to this directory and run `make` again)
