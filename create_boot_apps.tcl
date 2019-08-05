@@ -30,6 +30,6 @@ file delete -force build/device_tree
 file copy -force build/workspace/device_tree build/
 file copy -force build/workspace/fsbl/Debug/fsbl.elf build/
 file copy -force build/workspace/pmufw/Debug/pmufw.elf build/
-file copy -force [glob build/workspace/$hwproject/*.bit] build/
+file copy -force [glob build/workspace/$hwproject/*.bit] build/bitstream.bit
 
 exit
